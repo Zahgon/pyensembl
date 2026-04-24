@@ -35,14 +35,14 @@ class Gene(LocusWithGenome):
         """
         Alias for gene_id necessary for backwards compatibility.
         """
-        return self.gene_id
+        pass
 
     @property
     def name(self):
         """
         Alias for gene_name necessary for backwards compatibility.
         """
-        return self.gene_name
+        pass
 
     def __str__(self):
         return (
@@ -74,10 +74,7 @@ class Gene(LocusWithGenome):
         return hash(self.id)
 
     def to_dict(self):
-        state_dict = LocusWithGenome.to_dict(self)
-        state_dict["gene_id"] = self.gene_id
-        state_dict["gene_name"] = self.gene_name
-        return state_dict
+        pass
 
     @memoized_property
     def transcripts(self):
@@ -85,26 +82,8 @@ class Gene(LocusWithGenome):
         Property which dynamically construct transcript objects for all
         transcript IDs associated with this gene.
         """
-        transcript_id_results = self.db.query(
-            select_column_names=["transcript_id"],
-            filter_column="gene_id",
-            filter_value=self.id,
-            feature="transcript",
-            distinct=False,
-            required=False,
-        )
-
-        # We're doing a SQL query for each transcript ID to fetch
-        # its particular information, might be more efficient if we
-        # just get all the columns here, but how do we keep that modular?
-        return [
-            self.genome.transcript_by_id(result[0]) for result in transcript_id_results
-        ]
+        pass
 
     @memoized_property
     def exons(self):
-        exon_set = set([])
-        for transcript in self.transcripts:
-            for exon in transcript.exons:
-                exon_set.add(exon)
-        return list(sorted(exon_set))
+        pass

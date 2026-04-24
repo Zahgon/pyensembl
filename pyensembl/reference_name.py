@@ -33,13 +33,11 @@ def find_species_by_reference(reference_name):
 
 
 def which_reference(species_name, ensembl_release):
-    return find_species_by_name(species_name).which_reference(ensembl_release)
+    pass
 
 
 def max_ensembl_release(reference_name):
-    species = find_species_by_reference(reference_name)
-    (_, max_release) = species.reference_assemblies[reference_name]
-    return max_release
+    pass
 
 
 def genome_for_reference_name(reference_name, allow_older_downloaded_release=True):

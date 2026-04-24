@@ -79,7 +79,7 @@ class Locus(Serializable):
         )
 
     def to_tuple(self):
-        return (self.contig, self.start, self.end, self.strand)
+        pass
 
     def __lt__(self, other):
         if not isinstance(other, Locus):
@@ -104,16 +104,11 @@ class Locus(Serializable):
         return (self == other) or (self > other)
 
     def to_dict(self):
-        return {
-            "contig": self.contig,
-            "start": self.start,
-            "end": self.end,
-            "strand": self.strand,
-        }
+        pass
 
     @property
     def length(self):
-        return self.end - self.start + 1
+        pass
 
     def offset(self, position):
         """Offset of given position from stranded start of this locus.
@@ -122,15 +117,7 @@ class Locus(Serializable):
         then the offset of position 13 is 7, whereas if the Locus is on the
         positive strand, then the offset is 3.
         """
-        if position > self.end or position < self.start:
-            raise ValueError(
-                "Position %d outside valid range %d..%d of %s"
-                % (position, self.start, self.end, self)
-            )
-        elif self.on_forward_strand:
-            return position - self.start
-        else:
-            return self.end - position
+        pass
 
     def offset_range(self, start, end):
         """
@@ -142,69 +129,45 @@ class Locus(Serializable):
         on this locuses's strand and determines that position's offset from
         the earliest position in this locus.
         """
-        if start > end:
-            raise ValueError(
-                "Locus should always have start <= end, got start=%d, end=%d"
-                % (start, end)
-            )
-
-        if start < self.start or end > self.end:
-            raise ValueError("Range (%d, %d) falls outside %s" % (start, end, self))
-
-        if self.on_forward_strand:
-            return (start - self.start, end - self.start)
-
-        else:
-            return (self.end - end, self.end - start)
+        pass
 
     def on_contig(self, contig):
-        return normalize_chromosome(contig) == self.contig
+        pass
 
     def on_strand(self, strand):
-        return normalize_strand(strand) == self.strand
+        pass
 
     @property
     def on_forward_strand(self):
-        return self.on_strand("+")
+        pass
 
     @property
     def on_positive_strand(self):
-        return self.on_forward_strand
+        pass
 
     @property
     def on_backward_strand(self):
-        return self.on_strand("-")
+        pass
 
     @property
     def on_negative_strand(self):
-        return self.on_backward_strand
+        pass
 
     def can_overlap(self, contig, strand=None):
         """
         Is this locus on the same contig and (optionally) on the same strand?
         """
-        return self.on_contig(contig) and (strand is None or self.on_strand(strand))
+        pass
 
     def distance_to_interval(self, start, end):
         """
         Find the distance between intervals [start1, end1] and [start2, end2].
         If the intervals overlap then the distance is 0.
         """
-        if self.start > end:
-            # interval is before this exon
-            return self.start - end
-        elif self.end < start:
-            # exon is before the interval
-            return start - self.end
-        else:
-            return 0
+        pass
 
     def distance_to_locus(self, other):
-        if not self.can_overlap(other.contig, other.strand):
-            # if two loci are on different contigs or strands,
-            # can't compute a distance between them
-            return float("inf")
-        return self.distance_to_interval(other.start, other.end)
+        pass
 
     def overlaps(self, contig, start, end, strand=None):
         """
@@ -213,22 +176,13 @@ class Locus(Serializable):
         Since locus position ranges are inclusive, we should make sure
         that e.g. chr1:10-10 overlaps with chr1:10-10
         """
-        return (
-            self.can_overlap(contig, strand)
-            and self.distance_to_interval(start, end) == 0
-        )
+        pass
 
     def overlaps_locus(self, other_locus):
-        return self.overlaps(
-            other_locus.contig, other_locus.start, other_locus.end, other_locus.strand
-        )
+        pass
 
     def contains(self, contig, start, end, strand=None):
-        return (
-            self.can_overlap(contig, strand) and start >= self.start and end <= self.end
-        )
+        pass
 
     def contains_locus(self, other_locus):
-        return self.contains(
-            other_locus.contig, other_locus.start, other_locus.end, other_locus.strand
-        )
+        pass

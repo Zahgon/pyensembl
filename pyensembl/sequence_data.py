@@ -53,14 +53,10 @@ class SequenceData(object):
         self._init_lazy_fields()
 
     def _init_lazy_fields(self):
-        self._fasta_dictionary = None
-        self._fasta_keys = None
+        pass
 
     def clear_cache(self):
-        self._init_lazy_fields()
-        for path in self.fasta_dictionary_pickle_paths:
-            if exists(path):
-                remove(path)
+        pass
 
     def __str__(self):
         return "SequenceData(fasta_paths=%s)" % (self.fasta_paths,)
@@ -84,54 +80,18 @@ class SequenceData(object):
         return hash(self.fasta_paths)
 
     def _add_to_fasta_dictionary(self, fasta_dictionary_tmp):
-        for identifier, sequence in fasta_dictionary_tmp.items():
-            if identifier in self._fasta_dictionary:
-                logger.warn(
-                    "Sequence identifier %s is duplicated in your FASTA files!"
-                    % identifier
-                )
-                continue
-            self._fasta_dictionary[identifier] = sequence
+        pass
 
     def _load_or_create_fasta_dictionary_pickle(self):
-        self._fasta_dictionary = dict()
-        for fasta_path, pickle_path in zip(
-            self.fasta_paths, self.fasta_dictionary_pickle_paths
-        ):
-            if exists(pickle_path):
-                # try loading the cached file
-                # but we'll fall back on recreating it if loading fails
-                try:
-                    fasta_dictionary_tmp = load_pickle(pickle_path)
-                    self._add_to_fasta_dictionary(fasta_dictionary_tmp)
-                    logger.info("Loaded sequence dictionary from %s", pickle_path)
-                    continue
-                except (pickle.UnpicklingError, AttributeError):
-                    # catch either an UnpicklingError or an AttributeError
-                    # resulting from pickled objects refering to classes
-                    # that no longer exists
-                    logger.warn(
-                        "Failed to load %s, attempting to read FASTA directly",
-                        pickle_path,
-                    )
-            logger.info("Parsing sequences from FASTA file at %s", fasta_path)
-
-            fasta_dictionary_tmp = parse_fasta_dictionary(fasta_path)
-            self._add_to_fasta_dictionary(fasta_dictionary_tmp)
-            logger.info("Saving sequence dictionary to %s", pickle_path)
-            dump_pickle(fasta_dictionary_tmp, pickle_path)
+        pass
 
     def index(self, overwrite=False):
-        if overwrite:
-            self.clear_cache()
-        self._load_or_create_fasta_dictionary_pickle()
+        pass
 
     @property
     def fasta_dictionary(self):
-        if not self._fasta_dictionary:
-            self._load_or_create_fasta_dictionary_pickle()
-        return self._fasta_dictionary
+        pass
 
     def get(self, sequence_id):
         """Get sequence associated with given ID or return None if missing"""
-        return self.fasta_dictionary.get(sequence_id)
+        pass

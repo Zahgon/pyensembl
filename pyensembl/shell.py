@@ -159,12 +159,7 @@ parser.add_argument(
 
 
 def collect_all_installed_ensembl_releases():
-    genomes = []
-    for species, release in Species.all_species_release_pairs():
-        genome = EnsemblRelease(release, species=species)
-        if genome.required_local_files_exist():
-            genomes.append(genome)
-    return sorted(genomes, key=lambda g: (g.species.latin_name, g.release))
+    pass
 
 
 def all_combinations_of_ensembl_genomes(args):
@@ -174,108 +169,13 @@ def all_combinations_of_ensembl_genomes(args):
     The results will typically be of type EnsemblRelease unless the
     --custom-mirror argument was given.
     """
-    species_list = args.species if args.species else ["human"]
-    release_list = args.release if args.release else [MAX_ENSEMBL_RELEASE]
-    genomes = []
-    for species in species_list:
-        # Otherwise, use Ensembl release information
-        for version in release_list:
-            ensembl_release = EnsemblRelease(version, species=species)
-
-            if not args.custom_mirror:
-                genomes.append(ensembl_release)
-            else:
-                # if we're using a custom mirror then we expect the provided
-                # URL to be a directory with all the same filenames as
-                # would be provided by Ensembl
-                gtf_url = os.path.join(
-                    args.custom_mirror, os.path.basename(ensembl_release.gtf_url)
-                )
-                transcript_fasta_urls = [
-                    os.path.join(
-                        args.custom_mirror, os.path.basename(transcript_fasta_url)
-                    )
-                    for transcript_fasta_url in ensembl_release.transcript_fasta_urls
-                ]
-                protein_fasta_urls = [
-                    os.path.join(
-                        args.custom_mirror, os.path.basename(protein_fasta_url)
-                    )
-                    for protein_fasta_url in ensembl_release.protein_fasta_urls
-                ]
-                reference_name = ensembl_release.reference_name
-                genome = Genome(
-                    reference_name=reference_name,
-                    annotation_name="ensembl",
-                    annotation_version=version,
-                    gtf_path_or_url=gtf_url,
-                    transcript_fasta_paths_or_urls=transcript_fasta_urls,
-                    protein_fasta_paths_or_urls=protein_fasta_urls,
-                )
-                genomes.append(genome)
-    return genomes
+    pass
 
 
 def collect_selected_genomes(args):
     # If specific genome source URLs are provided, use those
-    if args.gtf or args.transcript_fasta or args.protein_fasta:
-        if args.release:
-            raise ValueError(
-                "An Ensembl release cannot be specified if "
-                "specific paths are also given"
-            )
-        if not args.reference_name:
-            raise ValueError("Must specify a reference name")
-        if not args.annotation_name:
-            raise ValueError("Must specify the name of the annotation source")
-
-        return [
-            Genome(
-                reference_name=args.reference_name,
-                annotation_name=args.annotation_name,
-                annotation_version=args.annotation_version,
-                gtf_path_or_url=os.path.join(args.shared_prefix, args.gtf),
-                transcript_fasta_paths_or_urls=[
-                    os.path.join(args.shared_prefix, transcript_fasta)
-                    for transcript_fasta in args.transcript_fasta
-                ],
-                protein_fasta_paths_or_urls=[
-                    os.path.join(args.shared_prefix, protein_fasta)
-                    for protein_fasta in args.protein_fasta
-                ],
-            )
-        ]
-    else:
-        return all_combinations_of_ensembl_genomes(args)
+    pass
 
 
 def run():
-    args = parser.parse_args()
-    if args.action == "list":
-        # TODO: how do we also identify which non-Ensembl genomes are
-        # installed?
-        genomes = collect_all_installed_ensembl_releases()
-        for genome in genomes:
-            # print every directory in which downloaded files are located
-            # in most case this will be only one directory
-            filepaths = genome.required_local_files()
-            directories = {os.path.split(path)[0] for path in filepaths}
-            print("-- %s: %s" % (genome, ", ".join(directories)))
-    else:
-        genomes = collect_selected_genomes(args)
-
-        if len(genomes) == 0:
-            logger.error("ERROR: No genomes selected!")
-            parser.print_help()
-
-        for genome in genomes:
-            logger.info("Running '%s' for %s", args.action, genome)
-            if args.action == "delete-all-files":
-                genome.download_cache.delete_cache_directory()
-            elif args.action == "delete-index-files":
-                genome.delete_index_files()
-            elif args.action == "install":
-                genome.download(overwrite=args.overwrite)
-                genome.index(overwrite=args.overwrite)
-            else:
-                raise ValueError("Invalid action: %s" % args.action)
+    pass

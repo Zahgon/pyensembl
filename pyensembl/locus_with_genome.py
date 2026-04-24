@@ -27,14 +27,7 @@ class LocusWithGenome(Locus):
         self.biotype = biotype
 
     def to_dict(self):
-        return dict(
-            contig=self.contig,
-            start=self.start,
-            end=self.end,
-            strand=self.strand,
-            biotype=self.biotype,
-            genome=self.genome,
-        )
+        pass
 
     @property
     def is_protein_coding(self):
@@ -51,4 +44,4 @@ class LocusWithGenome(Locus):
         means that there is an open reading frame in this gene/transcript
         whose successful transcription has been observed.
         """
-        return self.biotype == "protein_coding"
+        pass

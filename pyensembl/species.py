@@ -67,7 +67,7 @@ class Species(Serializable):
         """
         Returns latin name of every registered species.
         """
-        return list(cls._latin_names_to_species.keys())
+        pass
 
     @classmethod
     def all_species_release_pairs(cls):
@@ -75,11 +75,7 @@ class Species(Serializable):
         Generator which yields (species, release) pairs
         for all possible combinations.
         """
-        for species_name in cls.all_registered_latin_names():
-            species = cls._latin_names_to_species[species_name]
-            for _, release_range in species.reference_assemblies.items():
-                for release in range(release_range[0], release_range[1] + 1):
-                    yield species_name, release
+        pass
 
     def __init__(self, latin_name, synonyms=[], reference_assemblies={}, is_plant=False):
         """
@@ -108,12 +104,7 @@ class Species(Serializable):
                 self._release_to_genome[i] = genome_name
 
     def which_reference(self, ensembl_release):
-        if ensembl_release not in self._release_to_genome:
-            raise ValueError(
-                "No genome for %s in Ensembl release %d"
-                % (self.latin_name, ensembl_release)
-            )
-        return self._release_to_genome[ensembl_release]
+        pass
 
     def __str__(self):
         return "Species(latin_name='%s', synonyms=%s, reference_assemblies=%s)" % (
@@ -131,11 +122,11 @@ class Species(Serializable):
         )
 
     def to_dict(self):
-        return {"latin_name": self.latin_name}
+        pass
 
     @classmethod
     def from_dict(cls, state_dict):
-        return cls._latin_names_to_species[state_dict["latin_name"]]
+        pass
 
     def __hash__(self):
         return hash(

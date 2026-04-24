@@ -26,7 +26,7 @@ class Exon(Locus):
         """
         Alias for exon_id necessary for backward compatibility.
         """
-        return self.exon_id
+        pass
 
     def __str__(self):
         return (
@@ -65,8 +65,4 @@ class Exon(Locus):
         return hash(self.id)
 
     def to_dict(self):
-        state_dict = Locus.to_dict(self)
-        state_dict["exon_id"] = self.id
-        state_dict["gene_name"] = self.gene_name
-        state_dict["gene_id"] = self.gene_id
-        return state_dict
+        pass

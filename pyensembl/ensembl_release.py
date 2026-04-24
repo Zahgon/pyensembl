@@ -111,10 +111,7 @@ class EnsemblRelease(Genome):
         )
 
     def install_string(self):
-        return "pyensembl install --release %d --species %s" % (
-            self.release,
-            self.species.latin_name,
-        )
+        pass
 
     def __str__(self):
         return "EnsemblRelease(release=%d, species='%s')" % (
@@ -133,14 +130,14 @@ class EnsemblRelease(Genome):
         return hash((self.release, self.species))
 
     def to_dict(self):
-        return {"release": self.release, "species": self.species, "server": self.server}
+        pass
 
     @classmethod
     def from_dict(cls, state_dict):
         """
         Deserialize EnsemblRelease without creating duplicate instances.
         """
-        return cls.cached(**state_dict)
+        pass
 
 
 def cached_release(release, species="human"):
